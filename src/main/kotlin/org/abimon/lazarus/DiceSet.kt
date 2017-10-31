@@ -12,4 +12,14 @@ class DiceSet {
 
         return dice[sides]!!.nextInt(sides)
     }
+
+    operator fun get(rolls: Int, sides: Int): Int {
+        if(!dice.containsKey(sides))
+            dice[sides] = Random()
+
+        var result: Int = 0
+        for(i in 0 until rolls)
+            result += dice[sides]!!.nextInt(sides)
+        return result
+    }
 }

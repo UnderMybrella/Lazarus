@@ -1,4 +1,4 @@
-package org.abimon.lazarus
+package org.abimon.lazarus.characters
 
 enum class EnumGoodAlignment {
     GOOD,
