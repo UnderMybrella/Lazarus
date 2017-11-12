@@ -18,9 +18,15 @@ object DungeonResources {
             StartingArea(Rectangle(20, 20), 2, 1)
     )
 
+    val CHAMBERS = arrayOf(
+            DungeonChamber(Rectangle(40, 40), false)
+    )
+
     fun generateDungeon(dice: DiceSet): DungeonRoom {
         return STARTING_AREAS[dice].first().generateDungeonRoom(dice, null, null)
     }
+
+    fun getChamber(dice: DiceSet, exit: DungeonRoom, exitSide: EnumSide): DungeonRoom = CHAMBERS[dice].first().generateDungeonRoom(dice, exit, exitSide)
 
     fun getDoor(dice: DiceSet, side: EnumSide, width: Int = 4): DungeonRoom {
         val material: String = when(dice[20] + 1) {
@@ -38,8 +44,9 @@ object DungeonResources {
         }
 
         val door = DungeonDoor(material, width, side)
-        when(dice[20] + 1) {
+        when(dice[6] + 1) {
             in arrayOf(1, 2) -> door.addExit(DungeonRoom.getExitForSide(side, door.shape.bounds.width, door.shape.bounds.height), side, getPassage(dice, side, false, width))
+            3 -> door.addExit(DungeonRoom.getExitForSide(side, door.shape.bounds.width, door.shape.bounds.height), side, getChamber(dice, door, side))
             else -> door.addExit(DungeonRoom.getExitForSide(side, door.shape.bounds.width, door.shape.bounds.height), side, BasicDungeonRoom(Rectangle(10, 10)))
         }
 
@@ -48,7 +55,7 @@ object DungeonResources {
     }
 
     fun getPassage(dice: DiceSet, side: EnumSide, outOfRoom: Boolean, width: Int = if(outOfRoom) getPassageWidthWide(dice) else getPassageWidth(dice)): DungeonRoom {
-        when(dice[5] + 1) {
+        when(dice[20] + 1) {
             in arrayOf(1, 2) -> {
                 when(side) {
                     EnumSide.NORTH -> {

@@ -36,4 +36,7 @@ enum class EnumSide {
             EAST -> SOUTH
             WEST -> NORTH
         }
+
+    val isHorizontal: Boolean
+        get() = this == NORTH || this == SOUTH
 }
